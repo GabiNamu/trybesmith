@@ -1,6 +1,7 @@
 import { ResultSetHeader } from 'mysql2';
 import { User } from '../interfaces/user.interface';
 import connection from './connection';
+import { Login } from '../interfaces/login.interface';
 
 async function createuser(user: User): Promise<User> {
   const { username, vocation, level, password } = user;
@@ -14,6 +15,16 @@ async function createuser(user: User): Promise<User> {
   return newUser;
 }
 
+async function getUser(user: Login): Promise<User | undefined> {
+  const [data] = await connection.execute(
+    'SELECT * FROM Trybesmith.users WHERE username = ?',
+    [user.username],
+  );
+  const [userObj] = data as User[];
+  return userObj as User | undefined;
+}
+
 export default {
   createuser,
+  getUser,
 };

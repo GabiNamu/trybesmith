@@ -6,6 +6,15 @@ async function createuser(req: Request, res: Response) {
   res.status(201).json({ token: newUser });
 }
 
+async function login(req: Request, res: Response) {
+  const token = await userService.login(req.body);
+  if (typeof token !== 'string') {
+    return res.status(token.status).json({ message: token.message });
+  }
+  return res.status(200).json({ token });
+}
+
 export default {
   createuser,
+  login,
 };
