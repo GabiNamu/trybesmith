@@ -1,7 +1,7 @@
 import { Product } from '../interfaces/product.interface';
 import productModel from '../models/product.model';
 
-async function createProduct(product: Product): Promise<Product> {
+async function createProduct(product: Product): Promise<Product | { message: string }> {
   const newProduct = await productModel.createProduct(product);
   return newProduct;
 }
