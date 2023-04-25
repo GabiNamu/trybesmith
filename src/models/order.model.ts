@@ -1,3 +1,4 @@
+import { ResultSetHeader } from 'mysql2';
 import { Order } from '../interfaces/order.interface';
 import connection from './connection';
 
@@ -12,6 +13,23 @@ async function getOrders(): Promise<Order[]> {
   return orders as Order[];
 }
 
+async function createOrder(order: { productsIds: number[] }, userId: number): Promise<void> {
+  console.log('chegeui aqui');
+  const [result] = await connection.execute<ResultSetHeader>(
+    'INSERT INTO Trybesmith.orders (user_id) VALUES (?)',
+    [userId],
+  );
+  const { insertId: id } = result;
+
+  await Promise.all(order.productsIds.map(async (p) => {
+    await connection.execute(
+      'UPDATE Trybesmith.products SET order_id = ? WHERE id = ?',
+      [id, p],
+    );
+  }));
+}
+
 export default {
   getOrders,
+  createOrder,
 };

@@ -14,8 +14,15 @@ const user = Joi.object({
   level: Joi.number().min(1).required(),
   password: Joi.string().min(8).required() });
 
+const order = Joi.object({
+  productsIds: Joi.array().items(
+    Joi.number().min(1),
+  ).required(),
+});
+
 export default {
   login,
   product,
   user,
+  order,
 };
