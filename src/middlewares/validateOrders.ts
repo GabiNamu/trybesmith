@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import schema from '../services/validation/schema';
+import schema from '../utils/validation/schema';
 
 async function validateOrders(req: Request, res: Response, next: NextFunction) {
   const { error } = schema.order.validate(req.body);

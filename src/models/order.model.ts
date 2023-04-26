@@ -14,7 +14,6 @@ async function getOrders(): Promise<Order[]> {
 }
 
 async function createOrder(order: { productsIds: number[] }, userId: number): Promise<void> {
-  console.log('chegeui aqui');
   const [result] = await connection.execute<ResultSetHeader>(
     'INSERT INTO Trybesmith.orders (user_id) VALUES (?)',
     [userId],
